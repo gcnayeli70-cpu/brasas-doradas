@@ -121,6 +121,8 @@ jobs:
   analisis-estatico:
     name: 4. Analisis estatico (SonarQube)
     needs: pruebas
+    # El plan gratuito de SonarQube Cloud solo evalua la rama principal y los pull requests
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -200,7 +202,12 @@ jobs:
   despliegue:
     name: 5. Despliegue y validacion
     needs: [ pruebas, analisis-estatico ]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') &&
+      needs.pruebas.result == 'success' &&
+      (needs.analisis-estatico.result == 'success' || needs.analisis-estatico.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: pruebas
