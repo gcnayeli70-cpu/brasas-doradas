@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 public class PedidoService {
 
     // Tasa de IGV vigente en Peru (18%)
-    public static final BigDecimal TASA_IGV = new BigDecimal("0.18");
+    public static final BigDecimal TASA_IGV = new BigDecimal("0.19");
     private static final int ESCALA = 2;
 
     private final PedidoRepository pedidoRepository;
