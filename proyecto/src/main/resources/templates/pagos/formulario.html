@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Pago</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2>Registrar pago</h2>
+
+    <div class="card p-4 shadow-sm bg-white mb-3">
+        <p><strong>Mesa:</strong> <span th:text="${pedido.mesa.numeroMesa}"></span></p>
+        <p><strong>Mozo:</strong> <span th:text="${pedido.empleado.nombres}"></span></p>
+        <p><strong>Total a pagar:</strong>
+            <span class="fs-4 text-danger" th:text="'S/ ' + ${pedido.total}"></span>
+        </p>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/pagos/registrar}" method="post" class="card p-4 shadow-sm bg-white">
+        <input type="hidden" name="idPedido" th:value="${pedido.idPedido}">
+
+        <div class="mb-3">
+            <label class="form-label">Método de pago</label>
+            <select name="metodoPago" id="metodoPago" class="form-select" required>
+                <option th:each="m : ${metodosPago}" th:value="${m}" th:text="${m}"></option>
+            </select>
+        </div>
+
+        <div id="qrYape" class="mb-3 text-center qr-oculto">
+            <p class="mb-2 fw-bold">Escanea para pagar con Yape / Plin</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=Yape:987654321%20-%20Brasas%20Doradas"
+                 alt="QR Yape" class="border rounded p-2 bg-white">
+            <p class="text-muted mt-2 mb-0"><small>Número: 987 654 321 — Brasas Doradas</small></p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Monto pagado (S/)</label>
+            <input type="number" step="0.01" name="montoPagado" class="form-control"
+                   th:value="${pedido.total}" required>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Confirmar pago</button>
+        <a href="/pedidos" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script src="/js/pagos.js"></script>
+</body>
+</html>

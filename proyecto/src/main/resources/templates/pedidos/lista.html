@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Pedidos</h2>
+        <a href="/pedidos/nuevo" class="btn btn-danger">+ Nuevo pedido</a>
+    </div>
+
+    <table class="table table-striped bg-white shadow-sm">
+        <thead class="table-dark">
+        <tr><th>ID</th><th>Mesa</th><th>Mozo</th><th>Subtotal</th><th>IGV</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pedidos}">
+            <td th:text="${p.idPedido}"></td>
+            <td th:text="'Mesa ' + ${p.mesa.numeroMesa}"></td>
+            <td th:text="${p.empleado.nombres}"></td>
+            <td th:text="'S/ ' + ${p.subtotal}"></td>
+            <td th:text="'S/ ' + ${p.igv}"></td>
+            <td th:text="'S/ ' + ${p.total}"></td>
+            <td th:text="${p.estado}"></td>
+            <td>
+                <a th:if="${p.estado.name() != 'PAGADO' and p.estado.name() != 'ANULADO'}"
+                   th:href="@{/pagos/nuevo/{id}(id=${p.idPedido})}" class="btn btn-sm btn-outline-success">Cobrar</a>
+                <a th:href="@{/pedidos/anular/{id}(id=${p.idPedido})}" class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('¿Anular este pedido?')">Anular</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

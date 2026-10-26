@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Movimientos de Inventario</h2>
+        <a href="/inventario/nuevo" class="btn btn-danger">+ Nuevo movimiento</a>
+    </div>
+
+    <table class="table table-striped bg-white shadow-sm">
+        <thead class="table-dark">
+        <tr><th>ID</th><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Proveedor</th><th>Fecha</th><th>Observación</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="m : ${movimientos}">
+            <td th:text="${m.idMovimiento}"></td>
+            <td th:text="${m.producto.nombreProducto}"></td>
+            <td th:text="${m.tipoMovimiento}"></td>
+            <td th:text="${m.cantidad}"></td>
+            <td th:text="${m.proveedor != null ? m.proveedor.razonSocial : '-'}"></td>
+            <td th:text="${m.fechaMovimiento}"></td>
+            <td th:text="${m.observacion}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(movimientos)}">
+            <td colspan="7" class="text-center text-muted">Aún no hay movimientos registrados.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

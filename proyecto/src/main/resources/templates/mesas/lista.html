@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mesas - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Mesas</h2>
+        <a href="/mesas/nueva" class="btn btn-danger">+ Nueva mesa</a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3" th:each="m : ${mesas}">
+            <div class="card shadow-sm text-center p-3"
+                 th:classappend="${m.estado.name() == 'DISPONIBLE'} ? 'border-success' : (${m.estado.name() == 'OCUPADA'} ? 'border-danger' : 'border-warning')">
+                <h5>Mesa <span th:text="${m.numeroMesa}"></span></h5>
+                <p class="mb-1" th:text="${m.salon.nombreSalon}"></p>
+                <span class="badge"
+                      th:classappend="${m.estado.name() == 'DISPONIBLE'} ? 'bg-success' : (${m.estado.name() == 'OCUPADA'} ? 'bg-danger' : 'bg-warning')"
+                      th:text="${m.estado}"></span>
+                <div class="mt-2">
+                    <a th:href="@{/mesas/estado/{id}/DISPONIBLE(id=${m.idMesa})}" class="btn btn-sm btn-outline-success">Liberar</a>
+                    <a th:href="@{/mesas/estado/{id}/OCUPADA(id=${m.idMesa})}" class="btn btn-sm btn-outline-danger">Ocupar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: brasas-doradas-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: brasas_doradas_db
+      MYSQL_ROOT_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - brasas_doradas_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-padmin123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: brasas-doradas-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: brasas_doradas_db
+      DB_USER: root
+      DB_PASSWORD: admin123
+    ports:
+      - "8080:8080"
+
+volumes:
+  brasas_doradas_mysql_data:

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Productos</h2>
+        <a href="/productos/nuevo" class="btn btn-danger">+ Nuevo producto</a>
+    </div>
+
+    <table class="table table-striped bg-white shadow-sm">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${productos}">
+            <td th:text="${p.idProducto}"></td>
+            <td th:text="${p.nombreProducto}"></td>
+            <td th:text="${p.categoria.nombreCategoria}"></td>
+            <td th:text="'S/ ' + ${p.precio}"></td>
+            <td th:text="${p.stock}"></td>
+            <td th:text="${p.estado}"></td>
+            <td>
+                <a th:href="@{/productos/editar/{id}(id=${p.idProducto})}" class="btn btn-sm btn-outline-primary">Editar</a>
+                <a th:href="@{/productos/eliminar/{id}(id=${p.idProducto})}" class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

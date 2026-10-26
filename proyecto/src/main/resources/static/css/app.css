@@ -1,0 +1,34 @@
+.login-bg {
+    min-height: 100vh;
+}
+
+.qr-oculto {
+    display: none;
+}
+
+.boleta {
+    max-width: 380px;
+    margin: 0 auto;
+    font-family: 'Courier New', monospace;
+    border: 1px dashed #999;
+    padding: 20px;
+    background: white;
+}
+
+.boleta hr {
+    border-top: 1px dashed #999;
+}
+
+.boleta table td {
+    padding: 2px 0;
+    font-size: 14px;
+}
+
+@media print {
+    .no-imprimir {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+    }
+}

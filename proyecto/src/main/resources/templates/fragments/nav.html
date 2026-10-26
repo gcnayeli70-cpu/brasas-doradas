@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-danger mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">🔥 Brasas Doradas</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMINISTRADOR','CAJERO')">
+                    <a class="nav-link" href="/productos">Productos</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/pedidos">Pedidos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/mesas">Mesas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMINISTRADOR','CAJERO')">
+                    <a class="nav-link" href="/reportes">Reportes</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/proveedores">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/inventario">Inventario</a></li>
+            </ul>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

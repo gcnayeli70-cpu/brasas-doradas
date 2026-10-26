@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Pedido</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2>Nuevo pedido</h2>
+
+    <form th:action="@{/pedidos/registrar}" method="post" class="card p-4 shadow-sm bg-white">
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Mesa</label>
+                <select name="idMesa" class="form-select" required>
+                    <option th:each="m : ${mesas}" th:value="${m.idMesa}"
+                            th:text="'Mesa ' + ${m.numeroMesa} + ' - ' + ${m.salon.nombreSalon}"></option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Cliente (opcional)</label>
+                <select name="idCliente" class="form-select">
+                    <option value="">-- Sin cliente --</option>
+                    <option th:each="c : ${clientes}" th:value="${c.idCliente}"
+                            th:text="${c.nombres} + ' ' + ${c.apellidos}"></option>
+                </select>
+            </div>
+        </div>
+
+        <hr>
+        <h5>Detalle del pedido</h5>
+        <div id="lineas">
+            <div class="row mb-2 linea-detalle">
+                <div class="col-md-6">
+                    <select name="productoId" class="form-select" required>
+                        <option th:each="p : ${productos}" th:value="${p.idProducto}"
+                                th:text="${p.nombreProducto} + ' (S/ ' + ${p.precio} + ')'"></option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="cantidad" min="1" value="1" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="agregarLinea" class="btn btn-outline-secondary btn-sm mb-3">+ Agregar producto</button>
+        <br>
+
+        <button type="submit" class="btn btn-danger">Registrar pedido</button>
+        <a href="/pedidos" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script th:src="@{/js/pedidos.js}"></script>
+</body>
+</html>

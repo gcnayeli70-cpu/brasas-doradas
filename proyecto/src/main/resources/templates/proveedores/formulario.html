@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Proveedor</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2>Nuevo proveedor</h2>
+    <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post" class="card p-4 shadow-sm bg-white">
+        <div class="mb-3">
+            <label class="form-label">Razón social</label>
+            <input type="text" th:field="*{razonSocial}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">RUC</label>
+            <input type="text" th:field="*{ruc}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="text" th:field="*{telefono}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dirección</label>
+            <input type="text" th:field="*{direccion}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-danger">Guardar</button>
+        <a href="/proveedores" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

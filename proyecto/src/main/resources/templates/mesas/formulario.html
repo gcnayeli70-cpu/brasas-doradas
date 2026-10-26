@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Mesa</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2>Nueva mesa</h2>
+    <form th:action="@{/mesas/guardar}" th:object="${mesa}" method="post" class="card p-4 shadow-sm bg-white">
+        <div class="mb-3">
+            <label class="form-label">Número de mesa</label>
+            <input type="number" th:field="*{numeroMesa}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Salón</label>
+            <select th:field="*{idSalon}" class="form-select">
+                <option th:each="s : ${salones}" th:value="${s.idSalon}" th:text="${s.nombreSalon}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Capacidad</label>
+            <input type="number" th:field="*{capacidad}" class="form-control" value="4">
+        </div>
+        <button type="submit" class="btn btn-danger">Guardar</button>
+        <a href="/mesas" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

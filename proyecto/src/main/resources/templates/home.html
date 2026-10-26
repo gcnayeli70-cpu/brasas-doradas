@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2 class="mb-4">Panel principal</h2>
+    <div class="row g-3">
+        <div class="col-md-3" sec:authorize="hasAnyRole('ADMINISTRADOR','CAJERO')">
+            <a href="/productos" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>🍗 Productos</h5>
+                    <p class="text-muted mb-0">Gestionar carta</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/pedidos" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>🧾 Pedidos</h5>
+                    <p class="text-muted mb-0">Registrar y ver ventas</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/mesas" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>🪑 Mesas</h5>
+                    <p class="text-muted mb-0">Estado de salones</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/clientes" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>👤 Clientes</h5>
+                    <p class="text-muted mb-0">Base de clientes</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3" sec:authorize="hasAnyRole('ADMINISTRADOR','CAJERO')">
+            <a href="/reportes" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>📊 Reportes</h5>
+                    <p class="text-muted mb-0">Ingresos y rotación</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/proveedores" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>🚚 Proveedores</h5>
+                    <p class="text-muted mb-0">Gestionar proveedores</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/inventario" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>📦 Inventario</h5>
+                    <p class="text-muted mb-0">Movimientos de stock</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

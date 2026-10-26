@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Boleta de Venta - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}" class="no-imprimir"></div>
+
+<div class="container my-4">
+    <div class="boleta shadow-sm">
+        <div class="text-center mb-2">
+            <h5 class="mb-0">🔥 BRASAS DORADAS</h5>
+            <small>Pollería · Ica, Perú</small><br>
+            <small>RUC: 20999999999</small>
+        </div>
+        <hr>
+        <p class="mb-1"><strong>BOLETA DE VENTA</strong> N° <span th:text="${pago.idPago}"></span></p>
+        <p class="mb-1">Fecha: <span th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy HH:mm')}"></span></p>
+        <p class="mb-1">Mesa: <span th:text="${pago.pedido.mesa.numeroMesa}"></span> &nbsp;|&nbsp; Atendido por: <span th:text="${pago.pedido.empleado.nombres}"></span></p>
+        <hr>
+        <table class="table table-borderless table-sm mb-1">
+            <thead>
+            <tr><th>Cant.</th><th>Producto</th><th class="text-end">Importe</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${pago.pedido.detalles}">
+                <td th:text="${d.cantidad}"></td>
+                <td th:text="${d.producto.nombreProducto}"></td>
+                <td class="text-end" th:text="${d.subtotalLinea}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table class="w-100">
+            <tr><td>Subtotal</td><td class="text-end">S/ <span th:text="${pago.pedido.subtotal}"></span></td></tr>
+            <tr><td>IGV (18%)</td><td class="text-end">S/ <span th:text="${pago.pedido.igv}"></span></td></tr>
+            <tr><td><strong>TOTAL</strong></td><td class="text-end"><strong>S/ <span th:text="${pago.pedido.total}"></span></strong></td></tr>
+        </table>
+        <hr>
+        <p class="mb-1">Método de pago: <strong th:text="${pago.metodoPago}"></strong></p>
+        <p class="mb-0">Monto pagado: S/ <span th:text="${pago.montoPagado}"></span></p>
+        <hr>
+        <p class="text-center mb-0"><small>¡Gracias por su preferencia!</small></p>
+    </div>
+
+    <div class="text-center mt-3 no-imprimir">
+        <button id="btnImprimir" class="btn btn-danger">🖨️ Imprimir boleta</button>
+        <a href="/pedidos" class="btn btn-secondary">Volver a Pedidos</a>
+    </div>
+</div>
+<script src="/js/pagos.js"></script>
+</body>
+</html>

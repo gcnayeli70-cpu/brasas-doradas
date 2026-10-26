@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes - Brasas Doradas</title>
+    <th:block th:replace="~{fragments/head :: bootstrap-css}"></th:block>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="container">
+    <h2 class="mb-4">Reportes</h2>
+
+    <!-- Resumen general -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 bg-white">
+                <h6 class="text-muted">Pedidos pagados</h6>
+                <h3 th:text="${resumen.totalPedidos()}"></h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 bg-white">
+                <h6 class="text-muted">Total facturado</h6>
+                <h3 th:text="'S/ ' + ${#numbers.formatDecimal(resumen.totalFacturado(), 1, 2)}"></h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 bg-white">
+                <h6 class="text-muted">Ticket promedio</h6>
+                <h3 th:text="'S/ ' + ${#numbers.formatDecimal(resumen.ticketPromedio(), 1, 2)}"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Ingresos por dia -->
+        <div class="col-md-6">
+            <h4>Ingresos por día</h4>
+            <table class="table table-striped bg-white shadow-sm">
+                <thead class="table-dark">
+                <tr><th>Fecha</th><th># Pedidos</th><th>Total</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="ing : ${ingresosPorDia}">
+                    <td th:text="${ing.fecha()}"></td>
+                    <td th:text="${ing.cantidadPedidos()}"></td>
+                    <td th:text="'S/ ' + ${#numbers.formatDecimal(ing.totalIngresos(), 1, 2)}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(ingresosPorDia)}">
+                    <td colspan="3" class="text-center text-muted">Aún no hay pedidos pagados registrados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Productos mas vendidos -->
+        <div class="col-md-6">
+            <h4>Productos más vendidos</h4>
+            <table class="table table-striped bg-white shadow-sm">
+                <thead class="table-dark">
+                <tr><th>Producto</th><th>Unidades</th><th>Total generado</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${productosMasVendidos}">
+                    <td th:text="${p.nombreProducto()}"></td>
+                    <td th:text="${p.unidadesVendidas()}"></td>
+                    <td th:text="'S/ ' + ${#numbers.formatDecimal(p.totalGenerado(), 1, 2)}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(productosMasVendidos)}">
+                    <td colspan="3" class="text-center text-muted">Aún no hay ventas pagadas registradas.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
